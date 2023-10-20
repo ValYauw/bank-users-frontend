@@ -19,7 +19,8 @@ import {
 const initialState = {
   users: [],
   user: null,
-  loading: false
+  loading: false,
+  processing: false
 };
 
 export default function usersReducer(state = initialState, action) {
@@ -44,11 +45,12 @@ export default function usersReducer(state = initialState, action) {
       return state;
     
     case FETCH_USERS_LOADING:
+      return { ...state, loading: action.payload }
     case GET_USER_LOADING:
     case CREATE_USER_LOADING:
     case UPDATE_USER_LOADING:
     case DELETE_USER_LOADING:
-      return { ...state, loading: action.payload }
+      return { ...state, processing: action.payload }
   }
   return state;
 }

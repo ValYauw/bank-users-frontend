@@ -5,7 +5,11 @@ import Button from 'react-bootstrap/Button';
 export default function UsersTable({ users = [], loading = false, handleEdit, handleDelete }) {
 
   if (loading) {
-    return <Spinner animation="border" role="loading" />;
+    return (
+      <div className='d-flex justify-content-center'>
+        <Spinner animation="border" role="loading" />
+      </div>
+    );
   }
 
   return (
@@ -35,7 +39,7 @@ export default function UsersTable({ users = [], loading = false, handleEdit, ha
               <td>{fullName}</td>
               <td>{telephone}</td>
               <td>{email}</td>
-              <td>{dateOfBirth}</td>
+              <td>{dateOfBirth ? new Intl.DateTimeFormat('id-ID').format(new Date(dateOfBirth)) : ''}</td>
               <td>{description}</td>
               <td>{questionSecondAuthentication}</td>
               <td>

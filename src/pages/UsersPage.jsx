@@ -12,7 +12,7 @@ export default function UsersPage() {
 
   const dispatch = useDispatch();
 
-  const { users, user, loading } = useSelector((state) => state.users);
+  const { users, user, loading, processing } = useSelector((state) => state.users);
 
   const [ showModal, setShowModal ] = useState(false);
   const [ mode, setMode ] = useState('add');
