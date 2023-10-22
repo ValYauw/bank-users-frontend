@@ -2,6 +2,8 @@
 
 Repository ini merupakan front-end integration dengan REST API dengan memakai C# dan .NET Core. Front-end application ini dibuat menggunakan Javascript dan React.js.
 
+Integrasi dengan backend: https://github.com/ValYauw/bank-users-backend
+
 Framework:
  - React.js
  - Javascript
