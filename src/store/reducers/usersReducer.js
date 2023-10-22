@@ -17,7 +17,7 @@ import {
 } from '../actions/actionTypes';
 
 const initialState = {
-  users: [],
+  users: {},
   user: null,
   loading: false,
   processing: false
@@ -29,7 +29,7 @@ export default function usersReducer(state = initialState, action) {
     case FETCH_USERS_SUCCESS:
       return { ...state, users: action.payload }
     case FETCH_USERS_REJECTED:
-      return { ...state, users: [] }
+      return { ...state, users: {} }
 
     case GET_USER_SUCCESS:
       return { ...state, user: action.payload }

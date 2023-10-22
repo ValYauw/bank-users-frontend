@@ -28,13 +28,14 @@ export default function UserForm({ initialState, mode, showModal = false, handle
 
   return (
     <Modal show={showModal} onHide={handleClose} centered>
-      <Form className='m-5'>
+      <Form className='m-5' autoComplete='off'>
         <Form.Group className="mb-6" name="fName">
           <Form.Label>Nama Depan</Form.Label>
           <Form.Control 
             type="text" 
             placeholder="Isi nama depan" 
             name="fName"
+            required
             value={formData.fName}
             onChange={handleFormInputChange}
           />
@@ -57,6 +58,7 @@ export default function UserForm({ initialState, mode, showModal = false, handle
             type="text" 
             placeholder="Isi nomor telephone"  
             name="telephone"
+            required
             value={formData.telephone}
             onChange={handleFormInputChange}
           />
@@ -68,6 +70,7 @@ export default function UserForm({ initialState, mode, showModal = false, handle
             type="email" 
             placeholder="Isi alamat email"  
             name="email"
+            required
             value={formData.email}
             onChange={handleFormInputChange}
           />
@@ -79,6 +82,7 @@ export default function UserForm({ initialState, mode, showModal = false, handle
             type="date" 
             placeholder="Isi tanggal lahir"  
             name="dateOfBirth"
+            required
             value={formData.dateOfBirth}
             onChange={handleFormInputChange}
           />
@@ -90,6 +94,7 @@ export default function UserForm({ initialState, mode, showModal = false, handle
             type="text" 
             placeholder="Isi deskripsi" 
             name="description"
+            required
             value={formData.description}
             onChange={handleFormInputChange} 
           />
@@ -101,17 +106,20 @@ export default function UserForm({ initialState, mode, showModal = false, handle
             type="text" 
             placeholder="ex. Apa warna kesukaan anda?"  
             name="questionSecondAuthentication"
+            required
             value={formData.questionSecondAuthentication}
             onChange={handleFormInputChange}
           />
         </Form.Group>
 
-        <Button variant="secondary" onClick={handleClose}>
-          Close
-        </Button>
-        <Button variant="primary" onClick={() => handleSubmit(formData, mode)}>
-          Save Changes
-        </Button>
+        <div className="mt-4 d-flex justify-content-end">
+          <Button variant="secondary" onClick={handleClose} className='mx-2'>
+            Close
+          </Button>
+          <Button variant="primary" onClick={() => handleSubmit(formData, mode)}>
+            Save Changes
+          </Button>
+        </div>
       </Form>
     </Modal>
   );

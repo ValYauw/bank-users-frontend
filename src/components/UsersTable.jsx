@@ -2,7 +2,17 @@ import Table from 'react-bootstrap/Table';
 import Spinner from 'react-bootstrap/Spinner';
 import Button from 'react-bootstrap/Button';
 
-export default function UsersTable({ users = [], loading = false, handleEdit, handleDelete }) {
+import PaginationTab from '../components/PaginationTab';
+
+export default function UsersTable({ 
+  users = [], 
+  numPages = 0,
+  currentPage = 0,
+  loading = false, 
+  handleEdit, 
+  handleDelete,
+  navigateToPage
+}) {
 
   if (loading) {
     return (
@@ -13,6 +23,7 @@ export default function UsersTable({ users = [], loading = false, handleEdit, ha
   }
 
   return (
+    <div className="table-responsive">
     <Table striped bordered hover>
       <thead>
         <tr>
@@ -32,7 +43,7 @@ export default function UsersTable({ users = [], loading = false, handleEdit, ha
         {users?.map((user, index) => {
           const { id, fName, lName, fullName, telephone, email, dateOfBirth, description, questionSecondAuthentication } = user;
           return (
-            <tr>
+            <tr key={id}>
               <td>{index+1}</td>
               <td>{fName}</td>
               <td>{lName}</td>
@@ -43,11 +54,11 @@ export default function UsersTable({ users = [], loading = false, handleEdit, ha
               <td>{description}</td>
               <td>{questionSecondAuthentication}</td>
               <td>
-                <Button variant="primary" onClick={handleEdit(id)}>
+                <Button variant="primary" onClick={handleEdit(id)} size="sm">
                   Edit
                 </Button>
                 {' '}
-                <Button variant="danger" onClick={handleDelete(id)}>
+                <Button variant="danger" onClick={handleDelete(id)} size="sm">
                   Delete
                 </Button>
               </td>
@@ -56,5 +67,11 @@ export default function UsersTable({ users = [], loading = false, handleEdit, ha
         })}
       </tbody>
     </Table>
+    <PaginationTab 
+      numPages={numPages}
+      currentPage={currentPage}
+      navigateToPage={navigateToPage}
+    />
+    </div>
   )
 }

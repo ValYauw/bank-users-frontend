@@ -29,11 +29,11 @@ const fetchUsersLoading = (data) => ({
   type: FETCH_USERS_LOADING,
   payload: data
 });
-export const fetchUsers = () => {
+export const fetchUsers = (pageNumber) => {
   return async (dispatch, getState) => {
     dispatch(fetchUsersLoading(true));
     try {
-      const { data } = await axios.get(API_URL);
+      const { data } = await axios.get(`${API_URL}?p=${pageNumber || 1}`);
       dispatch(fetchUsersSuccess(data));
     } catch(err) {
       dispatch(fetchUsersRejected());
@@ -84,6 +84,7 @@ export const createUser = (data) => {
   return async (dispatch, getState) => {
     dispatch(createUsersLoading(true));
     try {
+      if (!data?.dateOfBirth?.trim()) data.dateOfBirth = null;
       await axios.post(API_URL, data);
       dispatch(createUsersSuccess());
       dispatch(fetchUsers());
@@ -110,6 +111,7 @@ export const updateUser = (id, data) => {
   return async (dispatch, getState) => {
     dispatch(updateUserLoading(true));
     try {
+      if (!data?.dateOfBirth?.trim()) data.dateOfBirth = null;
       await axios.put(`${API_URL}/${id}`, data);
       dispatch(updateUserSuccess());
       dispatch(fetchUsers());

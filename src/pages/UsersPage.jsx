@@ -12,20 +12,22 @@ export default function UsersPage() {
 
   const dispatch = useDispatch();
 
-  const { users, user, loading, processing } = useSelector((state) => state.users);
+  const { users: { numPages = 0, data: users = [] } = {}, user, loading, processing } = useSelector((state) => state.users);
 
+  const [ currentPage, setCurrentPage ] = useState(1);
   const [ showModal, setShowModal ] = useState(false);
   const [ mode, setMode ] = useState('add');
 
   useEffect(() => {
     dispatch(fetchUsers());
-  }, []);
+  }, [currentPage]);
 
   return (
     <>
       <main className='mx-5'>
       <h1>Daftar User</h1>
-      <div className='my-3 float-end'>
+
+      <div className='my-3 d-flex justify-content-end'>
         <Button variant="primary" onClick={() => {
           setMode('add');
           setShowModal(true);
@@ -33,8 +35,11 @@ export default function UsersPage() {
           Tambah
         </Button>
       </div>
+
       <UsersTable 
         users={users} 
+        numPages={numPages}
+        currentPage={currentPage}
         loading={loading} 
         handleEdit={(id) => async () => {
           setMode('edit');
@@ -42,40 +47,52 @@ export default function UsersPage() {
           setShowModal(true);
         }}
         handleDelete={(id) => async (e) => {
-          dispatch(deleteUser(id));
-          toast("Sukses");
+          try {
+            dispatch(deleteUser(id));
+            toast("Data telah sukses ter-delete", { type: 'success' });
+          } catch(err) {
+            console.log(err);
+            toast("Error", { type: 'error' });
+          }
+        }}
+        navigateToPage={(pageNumber) => {
+          setCurrentPage(pageNumber);
         }}
       />
+
       <UserForm 
         initialState={mode === 'edit' ? user : null}
         mode={mode}
         showModal={showModal}
         handleClose={() => setShowModal(false)}
         handleSubmit={async (formData, mode) => {
-          console.log(formData);
+          // console.log(formData);
           try {
+            let successMessage = "";
             if (mode === 'add') {
               await dispatch(createUser(formData));
+              successMessage = "Sukses menambah user";
             } else if (mode === 'edit') {
               await dispatch(updateUser(user.id, {id: user.id, ...formData}));
+              successMessage = "Sukses mengedit user";
             }
-            toast("Sukses");
+            toast(successMessage, { type: 'success' });
             setShowModal(false);
           } catch(err) {
             let errors = err?.response?.data?.errors;
             errors = Object.entries(errors || { err: ['Internal server error']} )?.map(el => {
               let [k,v] = el;
-              if (k.startsWith('$.')) {
-                k = k.substring(2);
-                v = `The ${k} field is invalid.`
-              }
-              return v;
+              return v[0];
             })
-            toast(errors.join(" "));
+            toast(errors[0], { type: 'error' });
           }          
         }}
       />
-      <ToastContainer />
+
+      <ToastContainer 
+        position="top-center"
+        closeOnClick
+      />
       </main>
     </>
   )
