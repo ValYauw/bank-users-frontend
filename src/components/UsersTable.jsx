@@ -44,7 +44,7 @@ export default function UsersTable({
           const { id, fName, lName, fullName, telephone, email, dateOfBirth, description, questionSecondAuthentication } = user;
           return (
             <tr key={id}>
-              <td>{index+1}</td>
+              <td>{(currentPage-1) * 10 + index + 1}</td>
               <td>{fName}</td>
               <td>{lName}</td>
               <td>{fullName}</td>

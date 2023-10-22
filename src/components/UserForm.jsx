@@ -17,7 +17,7 @@ export default function UserForm({ initialState, mode, showModal = false, handle
       description: initialState?.description || '',
       questionSecondAuthentication: initialState?.questionSecondAuthentication || ''
     })
-  }, [initialState]);
+  }, [initialState, showModal]);
 
   const handleFormInputChange = (e) => {
     setFormData({

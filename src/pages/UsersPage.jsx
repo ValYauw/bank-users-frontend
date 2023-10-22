@@ -19,7 +19,7 @@ export default function UsersPage() {
   const [ mode, setMode ] = useState('add');
 
   useEffect(() => {
-    dispatch(fetchUsers());
+    dispatch(fetchUsers(currentPage));
   }, [currentPage]);
 
   return (
@@ -76,6 +76,7 @@ export default function UsersPage() {
               await dispatch(updateUser(user.id, {id: user.id, ...formData}));
               successMessage = "Sukses mengedit user";
             }
+            dispatch(fetchUsers(currentPage));
             toast(successMessage, { type: 'success' });
             setShowModal(false);
           } catch(err) {

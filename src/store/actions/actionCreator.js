@@ -87,7 +87,6 @@ export const createUser = (data) => {
       if (!data?.dateOfBirth?.trim()) data.dateOfBirth = null;
       await axios.post(API_URL, data);
       dispatch(createUsersSuccess());
-      dispatch(fetchUsers());
     } catch(err) {
       dispatch(createUsersRejected());
       throw err;
@@ -114,7 +113,6 @@ export const updateUser = (id, data) => {
       if (!data?.dateOfBirth?.trim()) data.dateOfBirth = null;
       await axios.put(`${API_URL}/${id}`, data);
       dispatch(updateUserSuccess());
-      dispatch(fetchUsers());
     } catch(err) {
       dispatch(updateUserRejected());
       throw err;
